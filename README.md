@@ -16,12 +16,12 @@ $ yarn add -D @xiyun/vue-route-webpack-plugin
 #### 配置
 在`vue.config.js`中：
 ```js
-const vueRouteWebpackPlugin = require('@xiyun/vue-route-webpack-plugin');
+const VueRouteWebpackPlugin = require('@xiyun/vue-route-webpack-plugin');
 
 module.exports = {
   configureWebpack: {
     plugins: [
-      new vueRouteWebpackPlugin({
+      new VueRouteWebpackPlugin({
         // 选项，见下文
       })
     ],
@@ -92,7 +92,7 @@ src/
 
 插件提供了以下这些选项供自定义配置
 ```js
-new vueRouteWebpackPlugin({
+new VueRouteWebpackPlugin({
   // 文件扩展名，默认只查询 .vue 类型的文件，根据实际需要可以进行扩展
   extension: ['vue', 'js', 'jsx'],
   // 插件扫描的项目目录，默认会扫描 'src/views' 目录
