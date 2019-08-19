@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:xiyun-international/vue-route-webpack-plugin.git",
   "author": "zhaoliang <kybetter@163.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.0.2"
+  }
 }
