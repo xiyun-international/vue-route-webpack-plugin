@@ -2,7 +2,9 @@
 
 ### 介绍
 
-扫描文件中的路由配置，生成路由文件的 webpack 插件
+扫描文件中的路由配置，生成路由文件的 webpack 插件。
+
+使用插件自动生成路由是具备一定的优势的。当项目中的路由配置非常多的时候，为了区分业务，你可能需要分成许多个文件来存放这些路由文件，这样就不得不去维护这些路由文件。每当要添加路由的时候，还得重复的写`import` 和`export`。使用插件来自动生成路由后，就无需再关心和维护路由文件了。
 
 ### 使用方式
 
@@ -19,7 +21,9 @@ const vueRouteWebpackPlugin = require('@xiyun/vue-route-webpack-plugin');
 module.exports = {
   configureWebpack: {
     plugins: [
-      new vueRouteWebpackPlugin()
+      new vueRouteWebpackPlugin({
+        // 选项，见下文
+      })
     ],
   }
 };
@@ -27,7 +31,13 @@ module.exports = {
 
 #### 使用
 在需要配置路由的页面级`.vue`文件中加入如下注释：
-```js
+
+`假设在 user.vue 文件中：`
+```html
+<template>
+  <div>user</div>
+</template>
+<script>
 // @route('user/list')
 // 或
 // 第二个参数是路由别名
@@ -39,9 +49,16 @@ module.exports = {
  * 或
  * @route('user/list', 'user')
  */
+export default {
+  name: 'user',
+  data() {
+    return {}
+  }
+}
+</script>
 ```
 
-当你启动开发服务或执行构建的时候，就会在`src/router`目录下生成`children.js`这个路由文件。
+**默认情况下**，当你启动开发服务或执行构建的时候，就会在`src/router`目录下生成`children.js`这个路由文件。
 
 假设你的页面文件路径是：`src/views/user/list.vue`，那么生成的路由文件的内容看起来就会是这样的：
 ```js
@@ -58,12 +75,27 @@ export default [
 ]
 ```
 
-#### 目录约定
+#### 默认目录约定
 
 ```
 src/
   |-views/         (项目文件，插件会扫描该目录下所有 .vue 文件的路由配置)
+    |-...
   |-router/        (路由目录)
     |-index.js     (主路由文件，需要引入 children.js 作为子路由来使用)
     |-children.js  (路由文件，由插件自动生成)
+```
+
+#### 选项参考
+
+插件提供了以下这些选项供自定义配置
+```js
+new vueRouteWebpackPlugin({
+  // 文件扩展名，默认只查询 .vue 类型的文件，根据实际需要可以进行扩展
+  extension: ['vue', 'js', 'jsx'],
+  // 插件扫描的项目目录，默认会扫描 'src/views' 目录
+  directory: 'src/views',
+  // 生成的路由文件存放地址，默认存放到 'src/router/children.js'
+  routeFilePath: 'src/router/children.js',
+})
 ```
