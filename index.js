@@ -4,7 +4,7 @@ const sep = path.sep;
 const chokidar = require('chokidar');
 
 class VueRouteWebpackPlugin {
-  constructor(options) {
+  constructor(options = {}) {
     // 文件扩展名
     this.extension = options.extension || ['vue'];
     // 扫描目录
