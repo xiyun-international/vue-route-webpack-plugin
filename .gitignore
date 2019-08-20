@@ -2,6 +2,8 @@
 ### Node template
 
 yarn.lock
+.DS_Store
+children.js
 
 # Logs
 logs
