@@ -8,6 +8,18 @@
 
 ### 使用方式
 
+#### 快速尝试
+在仓库中有一个 `example` 目录，你可以将本项目克隆到本地后，进入到该目录下，执行：
+```
+$ yarn install
+// 然后执行
+$ yarn start 
+// 或 
+$ yarn build
+```
+执行完上述命令后，你就可以在`src/router/`目录下看到自动生成的路由文件了。
+你可以自行修改`views/demo.vue`查看编译后的改动结果。
+
 #### 安装
 ```bash
 $ yarn add -D @xiyun/vue-route-webpack-plugin
