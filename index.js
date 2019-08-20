@@ -12,6 +12,16 @@ class VueRouteWebpackPlugin {
     // 路由文件存放路径
     this.routeFilePath = options.routeFilePath || `src${sep}router${sep}children.js`;
     this._extensionRegexp = new RegExp(`.${this.extension.join('$|.')}$`);
+    this._directoryRegexp = this.directoryRegExp(this.directory);
+  }
+
+  directoryRegExp(path) {
+    if (path.charAt(0) === '/' || path.charAt(0) === '\\') {
+      path = path.substring(1);
+    }
+    const pathSplit = path.split(/[/|\\]/);
+    const first = pathSplit.shift();
+    return new RegExp(`.*[/|\\\\]${first}([/|\\\\]${pathSplit.join(sep)})`)
   }
 
   apply(compiler) {
@@ -55,10 +65,14 @@ class VueRouteWebpackPlugin {
             const routeStr = res[1].replace(/['"]/g, '');
             const componentName = routeStr.replace(/[/:?*-]/g, '');
             const alias = res[2] ? res[2].replace(/['"]/g, '') : null;
-            const relatePath = (/.*\/src(\/views.*)/.exec(dir))[1];
+
+            const relatePath = this._directoryRegexp.exec(dir);
+            if (relatePath === null) {
+              throw new Error('项目目录配置不正确');
+            }
 
             cache.push({
-              import: `import ${componentName} from '@${relatePath}/${li}';`,
+              import: `import ${componentName} from '@${relatePath[1]}/${li}';`,
               route: {
                 path: routeStr,
                 name: routeStr,
@@ -74,7 +88,7 @@ class VueRouteWebpackPlugin {
 
   generatorRoute(routerFile) {
     let cache = [];
-    this.scanDir(path.resolve('src', 'views'), cache);
+    this.scanDir(path.resolve(this.directory), cache);
     const _imports = [];
     const _routes = [];
     cache.forEach(item => {
