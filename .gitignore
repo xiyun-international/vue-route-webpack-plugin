@@ -4,6 +4,7 @@
 yarn.lock
 .DS_Store
 children.js
+dist/
 
 # Logs
 logs

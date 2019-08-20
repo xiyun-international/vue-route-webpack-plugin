@@ -90,6 +90,7 @@ class VueRouteWebpackPlugin {
     _routes.forEach(item => {
       rawArr.push(`  {\n    path: '${item.path}',\n    name: '${item.component}',\n    component: ${item.component},\n${item.alias !== null ? `    alias: '${item.alias}',\n`: ''}  },\n`)
     });
+    rawArr.unshift('/* eslint-disable */\n');
     rawArr.push('];\n');
     fs.writeFileSync(routerFile, rawArr.join(''));
   }

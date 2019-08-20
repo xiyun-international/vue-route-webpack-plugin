@@ -9,7 +9,6 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  recordsPath: path.join(__dirname, 'records.json'),
   module: {
     rules: [
       {
