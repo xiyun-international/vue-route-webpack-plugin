@@ -8,8 +8,14 @@
 
 使用插件后，只需在项目的`.vue`文件中加上这样的路由配置：
 ```js
+// src/views/user/list.vue
+
 /**
+ * 在会员列表文件中，声明该页面，对应的路由信息。
+ * 支持一个页面有多个路由。
+ * 
  * @route('user/list')
+ * @route('user/list/:type')
  */
 ```
 当启动开发服务或执行构建时，插件就会根据这个配置生成如下内容的路由文件：
@@ -20,6 +26,11 @@ export default [
   {
     path: 'user/list',
     name: 'userlist',
+    component: userlist,
+  },
+  {
+    path: 'user/list/:type',
+    name: 'userlistType',
     component: userlist,
   },
 ]
