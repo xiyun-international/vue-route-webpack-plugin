@@ -55,6 +55,8 @@ class VueRouteWebpackPlugin {
         const regexp = RegExp('@route\(.*\)', 'g');
         let res = null;
         let matches;
+        const context = Object.create(null);
+        context.counter = 0;
         while ((matches = regexp.exec(content)) !== null) {
           if (matches[0].indexOf(',') > 0) {
             res = /@route\((['"].*\1),\s*(['"].*\2)\)/.exec(matches[0]);
@@ -62,24 +64,32 @@ class VueRouteWebpackPlugin {
             res = /@route\((.*)\)/.exec(matches[0]);
           }
           if (res !== null) {
-            const routeStr = res[1].replace(/['"]/g, '');
-            const componentName = routeStr.replace(/[/:?*-]/g, '');
-            const alias = res[2] ? res[2].replace(/['"]/g, '') : null;
-
             const relatePath = this._directoryRegexp.exec(dir);
             if (relatePath === null) {
               throw new Error('项目目录配置不正确');
             }
+            const routeStr = res[1].replace(/['"]/g, '');
+            const alias = res[2] ? res[2].replace(/['"]/g, '') : null;
+            const componentName = routeStr.replace(/[/:?*-]/g, '');
 
-            cache.push({
-              import: `import ${componentName} from '@${sep}${relatePath[1]}${relatePath[2]}${sep}${li}';`,
+            const data = {
+              import: null,
               route: {
                 path: routeStr,
-                name: routeStr,
-                component: componentName,
+                name: componentName,
+                component: null,
                 alias
               }
-            })
+            }
+            
+            if (context.counter === 0) {
+              context.component = componentName;
+              context.import = `import ${componentName} from '@${sep}${relatePath[1]}${relatePath[2]}${sep}${li}';`
+              data.import = context.import;
+            }
+            data.route.component = context.component;
+            cache.push(data);
+            context.counter++;
           }
         }
       }
@@ -92,7 +102,9 @@ class VueRouteWebpackPlugin {
     const _imports = [];
     const _routes = [];
     cache.forEach(item => {
-      _imports.push(item.import);
+      if (item.import != null) {
+        _imports.push(item.import);
+      }
       _routes.push(item.route);
     });
     const rawArr = [];
@@ -102,9 +114,9 @@ class VueRouteWebpackPlugin {
     });
     rawArr.push('export default [\n');
     _routes.forEach(item => {
-      rawArr.push(`  {\n    path: '${item.path}',\n    name: '${item.component}',\n    component: ${item.component},\n${item.alias !== null ? `    alias: '${item.alias}',\n`: ''}  },\n`)
+      rawArr.push(`  {\n    path: '${item.path}',\n    name: '${item.name}',\n    component: ${item.component},\n${item.alias !== null ? `    alias: '${item.alias}',\n`: ''}  },\n`)
     });
-    rawArr.unshift('/* eslint-disable */\n');
+    // rawArr.unshift('/* eslint-disable */\n');
     rawArr.push('];\n');
     fs.writeFileSync(routerFile, rawArr.join(''));
   }
