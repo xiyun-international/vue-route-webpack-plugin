@@ -84,7 +84,7 @@ class VueRouteWebpackPlugin {
             
             if (context.counter === 0) {
               context.component = componentName;
-              context.import = `import ${componentName} from '@/${relatePath[1]}${relatePath[2]}/${li}';`.replace('\\', '/');
+              context.import = `import ${componentName} from '@/${relatePath[1]}${relatePath[2]}/${li}';`.replace(/\\/g, '/');
               data.import = context.import;
             }
             data.route.component = context.component;
