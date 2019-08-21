@@ -21,7 +21,7 @@ class VueRouteWebpackPlugin {
     }
     const pathSplit = path.split(/[/|\\]/);
     const first = pathSplit.shift();
-    return new RegExp(`.*[/|\\\\]${first}([/|\\\\]${pathSplit.join(sep)})`)
+    return new RegExp(`.*[/|\\\\]${first}[/|\\\\](${pathSplit.join(sep)})(.*)`)
   }
 
   apply(compiler) {
@@ -72,7 +72,7 @@ class VueRouteWebpackPlugin {
             }
 
             cache.push({
-              import: `import ${componentName} from '@${relatePath[1]}/${li}';`,
+              import: `import ${componentName} from '@${sep}${relatePath[1]}${relatePath[2]}${sep}${li}';`,
               route: {
                 path: routeStr,
                 name: routeStr,
