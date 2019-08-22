@@ -35,8 +35,7 @@ class VueRouteWebpackPlugin {
           persistent: true
         });
 
-        // TODO：当监听到某个文件变动时，只改动这个文件的路由，而不是再扫描一遍目录
-        watcher.on('change', path => {
+        watcher.on('change', () => {
           this.generatorRoute(routerFile);
           console.log('路由文件生成成功');
         })
@@ -116,7 +115,6 @@ class VueRouteWebpackPlugin {
     _routes.forEach(item => {
       rawArr.push(`  {\n    path: '${item.path}',\n    name: '${item.name}',\n    component: ${item.component},\n${item.alias !== null ? `    alias: '${item.alias}',\n`: ''}  },\n`)
     });
-    // rawArr.unshift('/* eslint-disable */\n');
     rawArr.push('];\n');
     fs.writeFileSync(routerFile, rawArr.join(''));
   }
