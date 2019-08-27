@@ -121,6 +121,12 @@ export default [
 
 *因为这个文件会由插件自动生成，所以你可以在 .gitignore 文件中把这个路由文件在版本库中忽略掉，避免多人协同开发时因频繁改动发生冲突。*
 
+**如果使用了 eslint，同时忽略了路由文件，那么需要在 `.eslintrs.js` 中禁用掉这两个检查规则：**
+```js
+'import/no-unresolved': 'off',
+'import/extensions': 'off',
+```
+
 #### 默认目录约定
 
 ```
