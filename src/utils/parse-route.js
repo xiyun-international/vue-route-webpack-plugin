@@ -22,6 +22,9 @@ module.exports = function parseRoute(contentArr) {
       case 'matchOption':
         matchOption += data;
         break;
+      case 'resetMatchOption':
+        matchOption = '';
+        break;
       case 'setPath':
         routeConfigs[index] = routeConfigs[index] || {};
         routeConfigs[index].path = routeConfigs[index].path || '';
@@ -102,8 +105,8 @@ module.exports = function parseRoute(contentArr) {
 
   // 选项开始状态
   function optionStart(c) {
-    // console.log('intoOption', c);
-    if (c.match(/[a-z]/)) {
+    // console.log('optionStart', c);
+    if (c.match(/[route]/)) {
       // 如果等于 route 后还进这来，就不对了
       if (matchOption === 'route') {
         return start;
@@ -113,6 +116,7 @@ module.exports = function parseRoute(contentArr) {
     } else if (c === '(') {
       return beforeOption(c);
     } else {
+      emit('resetMatchOption');
       return start;
     }
   }
