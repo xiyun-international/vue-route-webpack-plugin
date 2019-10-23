@@ -1,6 +1,6 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const VueRouteWebpackPlugin = require('../index');
+const VueRouteWebpackPlugin = require('../src/index');
 
 module.exports = {
   mode: 'development',
