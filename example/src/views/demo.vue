@@ -2,13 +2,17 @@
   <div></div>
 </template>
 <script>
-// test
 // @route('shop/list',"shopList")
 /**
- * @route('shop/update/:id', '')
- * 
+ * @route({
+ *   path: 'shop/update/:id',
+ *   alias: 'shop-update',
+ *   name: 'updateShop',
+ *   meta: {
+ *     requiresAuth: true
+ *   }
+ * })
  */
-// @route('index', '')
 export default {
   
 }

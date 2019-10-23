@@ -1,11 +1,13 @@
 {
   "name": "@xiyun/vue-route-webpack-plugin",
   "version": "1.1.8",
-  "main": "index.js",
+  "main": "./src/index.js",
   "repository": "git@github.com:xiyun-international/vue-route-webpack-plugin.git",
   "author": "zhaoliang <kybetter@163.com>",
   "license": "MIT",
   "dependencies": {
-    "chokidar": "^3.0.2"
+    "chokidar": "^3.0.2",
+    "glob": "^7.1.5",
+    "shelljs": "^0.8.3"
   }
 }
