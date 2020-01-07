@@ -23,6 +23,9 @@ class VueRouteWebpackPlugin {
     this.directory = options.directory || `src/views`;
     // 路由文件存放路径
     this.routeFilePath = options.routeFilePath || `src/router/children.js`;
+    // 生成的文件中是否使用双引号规范，默认使用
+    this.doubleQoute = options.doubleQoute === undefined ? true : !!options.doubleQoute;
+    this.qoute = this.doubleQoute ? '"' : "'";
   }
 
   apply(compiler) {
@@ -62,7 +65,7 @@ class VueRouteWebpackPlugin {
         if (componentName === '') {
           componentName = item.path.replace(/[\/:?*\\\-'"]/g, '');
         }
-        importData.add(`import ${componentName} from '${this.prefix}${subFilePath}';`.replace(/\\/g, '/'))
+        importData.add(`import ${componentName} from ${this.qoute}${this.prefix}${subFilePath}${this.qoute};`.replace(/\\/g, '/'))
         item.component = componentName;
         routeData.push({ ...item });
       })

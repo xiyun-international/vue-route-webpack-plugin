@@ -2,12 +2,12 @@
   <div></div>
 </template>
 <script>
-// @route('shop/list',"shopList")
+// @route("shop/list","shopList")
 /**
  * @route({
- *   path: 'shop/update/:id',
- *   alias: 'shop-update',
- *   name: 'updateShop',
+ *   path: "shop/update/:id",
+ *   alias: "shop-update",
+ *   name: "updateShop",
  *   meta: {
  *     requiresAuth: true
  *   }

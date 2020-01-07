@@ -16,18 +16,18 @@
  * 
  * 简单配置：
  * 第二个参数将作为 alias
- * @route('user/list/:type')
- * @route('user/list', 'user')
+ * @route("user/list/:type")
+ * @route("user/list", "user")
  * 
  * 如果需要额外的路由配置，可以使用对象形式的配置方式：
  * @route({
- *   path: 'user/list',
- *   name: 'user-list',
- *   alias: 'user',
+ *   path: "user/list",
+ *   name: "user-list",
+ *   alias: "user",
  *   // 注意：这里 meta 字段的值只支持一层对象
  *   meta: { 
  *     requiresAuth: true,
- *     userType: 'member',
+ *     userType: "member",
  *   }
  * })
  */
@@ -36,26 +36,26 @@
 当启动开发服务或执行构建时，插件就会根据这个配置默认生成如下内容的名为`children.js`的路由文件：
 ```js
 // 生成的路由文件默认会放在：src/router/children.js，你可以使用选项来修改默认值
-import userlist from '../views/user/list.vue';
+import userlist from "../views/user/list.vue";
 
 export default [
   {
-    path: 'user/list/:type',
+    path: "user/list/:type",
     component: userlist,
   },
   {
-    path: 'user/list',
-    alias: 'user',
+    path: "user/list",
+    alias: "user",
     component: userlist,
   },
   {
-    path: 'user/list',
-    alias: 'user',
-    name: 'user-list',
+    path: "user/list",
+    alias: "user",
+    name: "user-list",
     component: userlist,
     meta: { 
       requiresAuth: true,
-      userType: 'member',
+      userType: "member",
     }
   },
 ]
@@ -86,7 +86,7 @@ $ yarn add -D @xiyun/vue-route-webpack-plugin
 #### 配置
 在`vue.config.js`或在`webpack`配置文件中加入插件配置：
 ```js
-const VueRouteWebpackPlugin = require('@xiyun/vue-route-webpack-plugin');
+const VueRouteWebpackPlugin = require("@xiyun/vue-route-webpack-plugin");
 
 module.exports = {
   configureWebpack: {
@@ -112,25 +112,25 @@ module.exports = {
  * 
  * 简单配置：
  * 第二个参数将作为 alias
- * @route('user/list/:type')
- * @route('user/list', 'user')
+ * @route("user/list/:type")
+ * @route("user/list", "user")
  * 
  * 如果需要额外的路由配置，可以使用对象形式的配置方式：
  * @route({
- *   path: 'user/list',
- *   name: 'user-list',
- *   alias: 'user',
+ *   path: "user/list",
+ *   name: "user-list",
+ *   alias: "user",
  *   // 注意：这里 meta 字段的值只支持一层对象
  *   meta: { 
  *     requiresAuth: true,
- *     userType: 'member',
+ *     userType: "member",
  *   }
  * })
  */
 // 单行注释也是可以的
-// @route('user/list/:type')
+// @route("user/list/:type")
 export default {
-  name: 'user',
+  name: "user",
   data() {
     return {}
   }
@@ -142,26 +142,26 @@ export default {
 
 假设你的页面文件路径是：`src/views/user/list.vue`，那么生成的路由文件的内容看起来就会是这样的：
 ```js
-import userlist from '../views/user/list.vue';
+import userlist from "../views/user/list.vue";
 
 export default [
   {
-    path: 'user/list/:type',
+    path: "user/list/:type",
     component: userlist,
   },
   {
-    path: 'user/list',
-    alias: 'user',
+    path: "user/list",
+    alias: "user",
     component: userlist,
   },
   {
-    path: 'user/list',
-    alias: 'user',
-    name: 'user-list',
+    path: "user/list",
+    alias: "user",
+    name: "user-list",
     component: userlist,
     meta: { 
       requiresAuth: true,
-      userType: 'member',
+      userType: "member",
     }
   },
 ]
@@ -171,8 +171,8 @@ export default [
 
 **如果使用了 eslint，同时忽略了路由文件，那么需要在 `.eslintrs.js` 中禁用掉这两个检查规则：**
 ```js
-'import/no-unresolved': 'off',
-'import/extensions': 'off',
+"import/no-unresolved": "off",
+"import/extensions": "off",
 ```
 
 #### 默认目录约定
@@ -191,11 +191,14 @@ src/
 插件提供了以下这些选项供自定义配置
 ```js
 new VueRouteWebpackPlugin({
-  // 配置 import 路径前缀，默认是：'../'，因为路由文件会默认放在 src/router/ 目录下
-  prefix: '../',
-  // 插件扫描的项目目录，默认会扫描 'src/views' 目录
-  directory: 'src/views',
-  // 生成的路由文件存放地址，默认存放到 'src/router/children.js'
-  routeFilePath: 'src/router/children.js',
+  // 配置 import 路径前缀，默认是："../"，因为路由文件会默认放在 src/router/ 目录下
+  prefix: "../",
+  // 插件扫描的项目目录，默认会扫描 "src/views" 目录
+  directory: "src/views",
+  // 生成的路由文件存放地址，默认存放到 "src/router/children.js"
+  routeFilePath: "src/router/children.js",
+  // 生成的文件中的 import 路径是否使用双引号规范，默认使用
+  // 注意：生成的路由文件中的 path 的引号是原封不动使用用户的
+  doubleQoute: true,
 })
 ```
